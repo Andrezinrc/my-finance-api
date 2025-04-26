@@ -76,7 +76,7 @@ public class TransactionService {
                 if (transaction.getIsIncome()) {
                     totalIncome += transaction.getAmount();
                 } else {
-                    totalExpense += transaction.getAmount();
+                    totalExpense -= transaction.getAmount();
                 }
             }
 

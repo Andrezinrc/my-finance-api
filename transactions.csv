@@ -1,6 +1,9 @@
 Description,Amount,Date,Category,IsIncome
 Salário,3000.0,2025-04-26T00:00,Renda,true
+Compra no mercado,150.75,2025-04-26T15:30,Alimentação,false
+Freelancer,1000.0,2025-04-26T14:30,Renda,true
+Conta de Luz,150.0,2025-04-26T14:30,Despesas,false
 
-Total Receita,3000.0
-Total Despesa,0.0
-Saldo Final,3000.0
+Total Receita,4000.0
+Total Despesa,-300.75
+Saldo Final,3699.25
