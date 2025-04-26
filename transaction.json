@@ -1,0 +1,7 @@
+{
+  "description": "Salário",
+  "amount": 3000,
+  "date": "2025-04-26T00:00:00",
+  "category": "Renda",
+  "isIncome": true
+}
