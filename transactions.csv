@@ -1,0 +1,6 @@
+Description,Amount,Date,Category,IsIncome
+Salário,3000.0,2025-04-26T00:00,Renda,true
+
+Total Receita,3000.0
+Total Despesa,0.0
+Saldo Final,3000.0
