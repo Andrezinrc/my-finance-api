@@ -16,6 +16,8 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.io.IOException;
+import java.time.LocalDateTime;
+
 
 @Service
 public class TransactionService {
@@ -23,6 +25,9 @@ public class TransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
 
+
+
+    
     // Cria e salva uma nova transacao
     public Transaction createTransaction(TransactionDTO dto) {
         Transaction transaction = new Transaction();
@@ -35,21 +40,34 @@ public class TransactionService {
         return transactionRepository.save(transaction);
     }
 
+
+    
+
     // Retorna todas as transacoes
     public List<Transaction> getAllTransactions() {
+        Transaction transaction = new Transaction();
         return transactionRepository.findAll();
     }
 
+
+    
+    
     // Retorna uma transacao pelo id
     public Transaction getTransactionById(Long id) {
         return transactionRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Transaction not found with id " + id));
+            .orElseThrow(() -> new RuntimeException("Transação nao encontrada com id " + id));
     }
 
+    
+
+    
     // Deleta uma transacao pelo id
     public void deleteTransaction(Long id) {
         transactionRepository.deleteById(id);
     }
+
+
+    
 
     // Exporta as transacoes para csv
     public void exportTransactionsToCsv(OutputStream os) {
@@ -61,8 +79,7 @@ public class TransactionService {
 
             double totalIncome = 0;
             double totalExpense = 0;
-
-            // Escreve os dados das transacoes
+            
             for (Transaction transaction : transactions) {
                 csvPrinter.printRecord(
                         transaction.getDescription(),
@@ -81,8 +98,6 @@ public class TransactionService {
             }
 
             csvPrinter.println();
-
-            // Adiciona o resumo
             csvPrinter.printRecord("Total Receita", totalIncome);
             csvPrinter.printRecord("Total Despesa", totalExpense);
             csvPrinter.printRecord("Saldo Final", totalIncome + totalExpense);

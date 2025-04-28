@@ -1,9 +1,11 @@
 Description,Amount,Date,Category,IsIncome
-Salário,3000.0,2025-04-26T00:00,Renda,true
-Compra no mercado,150.75,2025-04-26T15:30,Alimentação,false
-Freelancer,1000.0,2025-04-26T14:30,Renda,true
-Conta de Luz,150.0,2025-04-26T14:30,Despesas,false
+Salário Freelancer Abril,3000.0,2025-04-26T00:00,Renda,true
+Pagamento Cliente A,1500.0,2025-04-25T00:00,Renda,true
+Compra de software para projeto,500.0,2025-04-24T00:00,Despesas Profissionais,false
+Compra de materiais de escritório,200.0,2025-04-23T00:00,Despesas Profissionais,false
+Pagamento Freelancer Cliente B,2000.0,2025-04-20T00:00,Renda,true
+Jantar de negócios,100.0,2025-04-22T00:00,Despesas Profissionais,false
 
-Total Receita,4000.0
-Total Despesa,-300.75
-Saldo Final,3699.25
+Total Receita,6500.0
+Total Despesa,-800.0
+Saldo Final,5700.0
