@@ -1,0 +1,6 @@
+Description,Amount,Date,Category,IsIncome
+Exemplo CSV,200.0,2025-04-10T00:00,Categoria CSV,true
+
+Total Receita,200.0
+Total Despesa,0.0
+Saldo Final,200.0

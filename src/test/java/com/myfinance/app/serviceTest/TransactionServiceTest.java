@@ -13,6 +13,10 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -26,9 +30,11 @@ class TransactionServiceTest {
 
     @Test
     void testCreateTransaction() {
+        testExportTransactionsToCsv();
+            
         // Cria e salva uma transacao
         TransactionDTO dto = new TransactionDTO();
-        dto.setDescription("Teste de transação");
+        dto.setDescription("Teste de transacao");
         dto.setAmount(100.0);
         dto.setDate(LocalDateTime.now());
         dto.setCategory("Teste");
@@ -72,21 +78,32 @@ class TransactionServiceTest {
     }
 
     @Test
-    void testExportTransactionsToCsv() throws IOException {
-        // Salva transacao e exporta para csv
+    void testExportTransactionsToCsv() {
+        // Cria e salva a transacao
         Transaction transaction = new Transaction();
         transaction.setDescription("Exemplo CSV");
         transaction.setAmount(200.0);
-        transaction.setDate(LocalDateTime.now());
+        transaction.setDate(LocalDateTime.of(2025, 4, 10, 0, 0));
         transaction.setCategory("Categoria CSV");
         transaction.setIsIncome(true);
         transactionRepository.save(transaction);
 
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        transactionService.exportTransactionsToCsv(outputStream);
+        List<Transaction> transactions = List.of(transaction);
+        int year = 2025;
+        int month = 4;
 
-        String csvContent = outputStream.toString();
-        assertTrue(csvContent.contains("Exemplo CSV"));
-        assertTrue(csvContent.contains("Categoria CSV"));
+        transactionService.exportTransactionsToCsv(transactions, year, month);
+
+        // Verifica se o arquivo foi criado
+        File file = new File("relatorios/2025/04/relatorio.csv");
+        assertTrue(file.exists());
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String content = reader.lines().reduce("", (a, b) -> a + b);
+            assertTrue(content.contains("Exemplo CSV"));
+            assertTrue(content.contains("Categoria CSV"));
+        } catch (IOException e) {
+            fail("Erro ao ler o arquivo CSV gerado");
+        }
     }
 }

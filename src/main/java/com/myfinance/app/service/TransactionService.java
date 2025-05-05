@@ -17,6 +17,8 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.io.File;
+import java.io.FileWriter;
 
 
 @Service
@@ -25,11 +27,10 @@ public class TransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
 
-
-
-    
     // Cria e salva uma nova transacao
     public Transaction createTransaction(TransactionDTO dto) {
+        closePreviousMonthIfNeeded();
+
         Transaction transaction = new Transaction();
         transaction.setDescription(dto.getDescription());
         transaction.setAmount(dto.getAmount());
@@ -45,22 +46,21 @@ public class TransactionService {
 
     // Retorna todas as transacoes
     public List<Transaction> getAllTransactions() {
-        Transaction transaction = new Transaction();
         return transactionRepository.findAll();
     }
 
 
     
-    
+
     // Retorna uma transacao pelo id
     public Transaction getTransactionById(Long id) {
         return transactionRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Transação nao encontrada com id " + id));
+                .orElseThrow(() -> new RuntimeException("Transação não encontrada com ID " + id));
     }
 
-    
 
     
+
     // Deleta uma transacao pelo id
     public void deleteTransaction(Long id) {
         transactionRepository.deleteById(id);
@@ -70,16 +70,19 @@ public class TransactionService {
     
 
     // Exporta as transacoes para csv
-    public void exportTransactionsToCsv(OutputStream os) {
-        List<Transaction> transactions = transactionRepository.findAll();
+    public void exportTransactionsToCsv(List<Transaction> transactions, int year, int month) {
+        String folderPath = "relatorios/" + year + "/" + String.format("%02d", month);
+        new File(folderPath).mkdirs();
 
-        try (Writer writer = new OutputStreamWriter(os);
+        String filePath = folderPath + "/relatorio.csv";
+
+        try (Writer writer = new FileWriter(filePath);
              CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT
                      .withHeader("Description", "Amount", "Date", "Category", "IsIncome"))) {
 
             double totalIncome = 0;
             double totalExpense = 0;
-            
+
             for (Transaction transaction : transactions) {
                 csvPrinter.printRecord(
                         transaction.getDescription(),
@@ -89,7 +92,6 @@ public class TransactionService {
                         transaction.getIsIncome()
                 );
 
-                // Atualiza os totais de receita e despesa
                 if (transaction.getIsIncome()) {
                     totalIncome += transaction.getAmount();
                 } else {
@@ -105,6 +107,26 @@ public class TransactionService {
             csvPrinter.flush();
         } catch (IOException e) {
             throw new RuntimeException("Erro ao exportar CSV", e);
+        }
+    }
+
+
+    
+
+    // Fecha o mes anterior, se necessario
+    public void closePreviousMonthIfNeeded() {
+        List<Transaction> transactions = transactionRepository.findAll();
+
+        if (transactions.isEmpty()) return;
+
+        LocalDateTime now = LocalDateTime.now();
+        Transaction t = transactions.get(0);
+        int lastMonth = t.getDate().getMonthValue();
+        int lastYear = t.getDate().getYear();
+
+        if (lastMonth != now.getMonthValue() || lastYear != now.getYear()) {
+            exportTransactionsToCsv(transactions, lastYear, lastMonth);
+            transactionRepository.deleteAll();
         }
     }
 }

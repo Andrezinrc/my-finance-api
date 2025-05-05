@@ -88,22 +88,25 @@ public class TransactionController {
         }
     }
 
-
     
 
+    
     // Exporta transacoes como csv
     @GetMapping("/export")
-    public ResponseEntity<?> exportTransactions() {
+    public ResponseEntity<?> exportTransactions(
+        @RequestParam int year,
+        @RequestParam int month
+    ) {
         try {
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            transactionService.exportTransactionsToCsv(outputStream);
+            List<Transaction> allTransactions = transactionService.getAllTransactions();
+        
+            List<Transaction> filtered = allTransactions.stream()
+                .filter(t -> t.getDate().getYear() == year && t.getDate().getMonthValue() == month)
+                .toList();
 
-            ByteArrayResource resource = new ByteArrayResource(outputStream.toByteArray());
+            transactionService.exportTransactionsToCsv(filtered, year, month);
 
-            return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=transactions.csv")
-                    .contentType(MediaType.parseMediaType("text/csv"))
-                    .body(resource);
+            return ResponseEntity.ok("Transações exportadas com sucesso para relatorios/" + year + "/" + String.format("%02d", month));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao exportar transações para CSV");
