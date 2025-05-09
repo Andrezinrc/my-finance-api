@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: com.myfinance.app.service.TransactionServiceTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 7.306 s <<< FAILURE! - in com.myfinance.app.service.TransactionServiceTest
+testCreateTransaction  Time elapsed: 0.092 s  <<< ERROR!
+java.lang.IllegalStateException: Nao e possivel registrar transacao: caixa nao esta aberto!
+	at com.myfinance.app.service.TransactionServiceTest.testCreateTransaction(TransactionServiceTest.java:56)
+

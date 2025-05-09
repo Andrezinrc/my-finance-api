@@ -1,0 +1,7 @@
+{
+  "description": "Supermercado",
+  "amount": 300.00,
+  "date": "2025-05-04T17:15:00",
+  "category": "Alimentação",
+  "isIncome": false
+}

@@ -1,0 +1,7 @@
+{
+  "description": "Salário Mensal",
+  "amount": 3500.00,
+  "date": "2025-05-01T09:00:00",
+  "category": "Renda",
+  "isIncome": true
+}

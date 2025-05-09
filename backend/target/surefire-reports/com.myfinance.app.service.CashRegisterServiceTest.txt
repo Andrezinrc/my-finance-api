@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: com.myfinance.app.service.CashRegisterServiceTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.199 s <<< FAILURE! - in com.myfinance.app.service.CashRegisterServiceTest
+testCloseCashRegister  Time elapsed: 0.12 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <true> but was: <false>
+	at com.myfinance.app.service.CashRegisterServiceTest.testCloseCashRegister(CashRegisterServiceTest.java:60)
+

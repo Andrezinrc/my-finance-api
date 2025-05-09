@@ -1,6 +1,0 @@
-com/myfinance/app/model/Transaction.class
-com/myfinance/app/App.class
-com/myfinance/app/repository/TransactionRepository.class
-com/myfinance/app/dto/TransactionDTO.class
-com/myfinance/app/controller/TransactionController.class
-com/myfinance/app/service/TransactionService.class

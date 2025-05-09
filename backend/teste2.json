@@ -1,0 +1,7 @@
+{
+  "description": "Aluguel",
+  "amount": 1200.00,
+  "date": "2025-05-02T10:30:00",
+  "category": "Moradia",
+  "isIncome": false
+}
